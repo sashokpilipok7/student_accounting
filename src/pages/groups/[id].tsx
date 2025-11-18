@@ -50,7 +50,6 @@ export default function GroupDetail({ group, subjects, error }: PageProps) {
 <Link href="/" className="text-blue-600 underline mb-4 inline-block">
         &larr; На головну
       </Link>
-      {/* Заголовок Групи */}
       <div className="w-full mb-8 border-b pb-4">
         <h1 className="text-2xl font-bold">Група: {group.name}</h1>
         <p>{group.department.name}</p>
@@ -59,7 +58,6 @@ export default function GroupDetail({ group, subjects, error }: PageProps) {
 
       <div className="w-full">
         
-        {/* Ліва колонка: Список студентів */}
         <div className='w-full mt-4'>
           <h2 className="text-xl font-bold mb-4">Студенти</h2>
           <table className="w-full border-collapse border border-gray-400">
@@ -92,7 +90,6 @@ export default function GroupDetail({ group, subjects, error }: PageProps) {
           </table>
         </div>
 
-        {/* Права колонка: Предмети (Навчальний план) */}
         <div className='mt-4'>
           <h2 className="text-xl font-bold mb-4">Предмети (План)</h2>
           <ul className="list-disc pl-5 border p-4 border-gray-400">

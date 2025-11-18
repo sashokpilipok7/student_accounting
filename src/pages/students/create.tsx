@@ -47,7 +47,7 @@ function CreateStudent() {
         <div className="p-6">
           <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
             
-            {/* Ім'я */}
+  
             <div>
               <label className="block text-sm font-bold mb-1">Ім'я</label>
               <input 
