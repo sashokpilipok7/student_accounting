@@ -1,0 +1,79 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" // Lightweight, perfect for coursework
+  url      = "file:./dev.db"
+}
+
+// 1. Faculty/Department (Факультет)
+model Department {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  groups      Group[]  // Relation: One Department has many Groups
+}
+
+// 2. Student Group (Група)
+model Group {
+  id           Int        @id @default(autoincrement())
+  name         String     // e.g., "KN-201"
+  courseYear   Int        // e.g., 2 (2nd year)
+  departmentId Int
+  department   Department @relation(fields: [departmentId], references: [id])
+  students     Student[]  // Relation: One Group has many Students
+}
+
+// 3. The Student (Студент)
+model Student {
+  id          Int      @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  email       String   @unique
+  phone       String?
+  dateOfBirth DateTime?
+  
+  groupId     Int
+  group       Group    @relation(fields: [groupId], references: [id])
+  
+  grades      Grade[]  // Relation: Student has many Grades
+  createdAt   DateTime @default(now())
+}
+
+// 4. Subject/Course (Предмет)
+model Subject {
+  id          Int      @id @default(autoincrement())
+  name        String   // e.g., "Higher Mathematics"
+  credits     Int?     // ECTS credits
+  
+  teacherId   Int?
+  teacher     Teacher? @relation(fields: [teacherId], references: [id])
+  
+  grades      Grade[]
+}
+
+// 5. Teacher (Викладач)
+model Teacher {
+  id        Int       @id @default(autoincrement())
+  fullName  String
+  email     String    @unique
+  subjects  Subject[]
+}
+
+// 6. Grade/Performance (Журнал оцінок)
+// This links a Student and a Subject together with a score
+model Grade {
+  id        Int      @id @default(autoincrement())
+  value     Int      // The grade (e.g., 95, 5, A, etc.)
+  comment   String?  // Optional notes
+  date      DateTime @default(now())
+  
+  studentId Int
+  student   Student  @relation(fields: [studentId], references: [id])
+  
+  subjectId Int
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+}
