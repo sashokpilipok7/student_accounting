@@ -99,7 +99,7 @@ export default function StudentsList({ students }: PageProps) {
                       </span>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <button onClick={() => deleteStudent(student.id)} className="text-red-600 hover:text-red-900">Delete</button>
+                      <button onClick={() => alert('Ви не має права адміністратора')} className="text-red-600 hover:text-red-900">Delete</button>
                     </td>
                   </tr>
                 ))
