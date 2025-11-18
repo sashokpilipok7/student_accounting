@@ -33,84 +33,86 @@ function CreateStudent() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 p-8">
-    
-          <div className="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
-              <h1 className="text-xl font-bold text-gray-800">Create New Student</h1>
-              <Link href="/" className="text-sm text-blue-600 hover:underline">
-                 &larr; Back to List
-              </Link>
-            </div>
-    
-            <div className="p-6">
-              <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
-                
-                <div>
-                  <label className="block text-gray-700 text-sm font-bold mb-2">First Name</label>
-                  <input 
-                    type="text" 
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Ivan" 
-                    {...register("firstName", { required: true })} 
-                  />
-                  {errors.firstName && <span className="text-red-500 text-xs">This field is required</span>}
-                </div>
-    
-                <div>
-                  <label className="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
-                  <input 
-                    type="text" 
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Ivanov" 
-                    {...register("lastName", { required: true })} 
-                  />
-                  {errors.lastName && <span className="text-red-500 text-xs">This field is required</span>}
-                </div>
-    
-                <div>
-                  <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                  <input 
-                    type="email" 
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="ivan@example.com" 
-                    {...register("email", { required: true })} 
-                  />
-                  {errors.email && <span className="text-red-500 text-xs">This field is required</span>}
-                </div>
-    
-                <div>
-                  <label className="block text-gray-700 text-sm font-bold mb-2">Group ID</label>
-                  <input 
-                    type="number" 
-                    className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="e.g. 1" 
-                    {...register("groupId", { required: true, valueAsNumber: true })} 
-                  />
-                  <p className="text-xs text-gray-500 mt-1">Enter the ID of an existing group (e.g. 1 or 2)</p>
-                  {errors.groupId && <span className="text-red-500 text-xs">This field is required</span>}
-                </div>
-    
-                <div className="pt-4">
-                  <button 
-                    type="submit" 
-                    disabled={isLoading}
-                    className={`w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  >
-                    {isLoading ? 'Saving...' : 'Create Student'}
-                  </button>
-                </div>
-    
-                {error && (
-                  <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded relative text-sm">
-                    {error}
-                  </div>
-                )}
-    
-              </form>
-            </div>
-          </div>
+     <div className="min-h-screen p-8">
+      <div className="max-w-md mx-auto border border-gray-400 bg-white">
+        
+     
+        <div className="px-6 py-4 border-b border-gray-400 flex justify-between items-center">
+          <h1 className="text-xl font-bold">Створення студента</h1>
+          <Link href="/" className="text-sm text-blue-600 underline">
+             &larr; Назад до списку
+          </Link>
         </div>
+
+        <div className="p-6">
+          <form onSubmit={handleSubmit(submitHandler)} className="space-y-4">
+            
+            {/* Ім'я */}
+            <div>
+              <label className="block text-sm font-bold mb-1">Ім'я</label>
+              <input 
+                type="text" 
+                className="w-full p-2 border border-gray-400"
+                placeholder="Іван" 
+                {...register("firstName", { required: true })} 
+              />
+              {errors.firstName && <span className="text-red-600 text-xs">Це поле є обов'язковим</span>}
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold mb-1">Прізвище</label>
+              <input 
+                type="text" 
+                className="w-full p-2 border border-gray-400"
+                placeholder="Іванов" 
+                {...register("lastName", { required: true })} 
+              />
+              {errors.lastName && <span className="text-red-600 text-xs">Це поле є обов'язковим</span>}
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold mb-1">Email</label>
+              <input 
+                type="email" 
+                className="w-full p-2 border border-gray-400"
+                placeholder="ivan@example.com" 
+                {...register("email", { required: true })} 
+              />
+              {errors.email && <span className="text-red-600 text-xs">Це поле є обов'язковим</span>}
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold mb-1">ID Групи</label>
+              <input 
+                type="number" 
+                className="w-full p-2 border border-gray-400"
+                placeholder="наприклад: 1" 
+                {...register("groupId", { required: true, valueAsNumber: true })} 
+              />
+              <p className="text-xs text-gray-500 mt-1">Введіть ID існуючої групи</p>
+              {errors.groupId && <span className="text-red-600 text-xs">Це поле є обов'язковим</span>}
+            </div>
+
+            <div className="pt-4">
+              <button 
+                type="submit" 
+                disabled={isLoading}
+                className="w-full bg-blue-600 text-white font-bold py-2 px-4 hover:bg-blue-700"
+              >
+                {isLoading ? 'Збереження...' : 'Створити студента'}
+              </button>
+            </div>
+
+            {error && (
+              <div className="p-3 border border-red-600 bg-red-50 text-red-700 text-sm">
+                Помилка: {error}
+              </div>
+            )}
+
+          </form>
+        </div>
+      </div>
+    </div>
       );
 }
 

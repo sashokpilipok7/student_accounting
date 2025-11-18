@@ -53,7 +53,7 @@ export default function GroupDetail({ group, subjects, error }: PageProps) {
       {/* Заголовок Групи */}
       <div className="w-full mb-8 border-b pb-4">
         <h1 className="text-2xl font-bold">Група: {group.name}</h1>
-        <p>Факультет: {group.department.name}</p>
+        <p>{group.department.name}</p>
         <p>Кількість студентів: {group.students.length}</p>
       </div>
 

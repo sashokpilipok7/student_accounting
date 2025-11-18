@@ -41,7 +41,7 @@ export default function StudentsList({ students }: PageProps) {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-800">Реєстр студентів</h1>
-            <p className="text-gray-500">Керування та перегляд усіх студентів</p>
+            <p className="text-gray-500">Керування та перегляд усіх студентів з фізико-математичного факультету</p>
           </div>
           <Link 
             href="/students/create" 
