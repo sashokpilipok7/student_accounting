@@ -84,7 +84,7 @@ export default function StudentsList({ students }: PageProps) {
                       <div className="flex items-center">
                         <div className="ml-3">
                           <p className="text-gray-900 whitespace-no-wrap font-semibold">
-                            {student.lastName} {student.firstName}
+                          <Link href={`/students/${student.id}`}>{student.lastName} {student.firstName}</Link>
                           </p>
                         </div>
                       </div>

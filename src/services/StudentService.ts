@@ -24,4 +24,26 @@ export class StudentService {
       where: { id }
     });
   }
+
+  async getStudentById(id: number) {
+    return await prisma.student.findUnique({
+      where: { id },
+      include: {
+        group: {
+          include: {
+            department: true // Щоб знати факультет
+          }
+        },
+        grades: {
+          include: {
+            subject: {
+              include: {
+                teacher: true // Щоб знати, хто поставив оцінку
+              }
+            }
+          }
+        }
+      }
+    });
+  }
 }
