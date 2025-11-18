@@ -12,7 +12,7 @@ type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 export interface SendReqParams {
   path: string;
   method?: HttpMethod;
-  body?: unknown | null;
+  body?: BodyInit | null;
   headers?: HeadersInit;
 }
 

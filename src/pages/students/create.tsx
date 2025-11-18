@@ -22,7 +22,7 @@ function CreateStudent() {
     const submitHandler = async (data: IFormInput) => {
         setIsLoading(true);
         try {
-            const response = await sendReq({ path: "students", method: "POST", body: JSON.stringify(data) });
+            await sendReq({ path: "students", method: "POST", body: JSON.stringify(data) });
             router.push("/");
         } catch (error) {
             setError("Failed to create student");
