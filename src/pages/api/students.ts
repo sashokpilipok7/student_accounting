@@ -7,6 +7,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
+  console.log("🟢 [API] Received Body:", req.body);
   if (req.method === 'GET') {
     try {
       const students = await studentService.getAllStudents();
@@ -23,13 +25,24 @@ export default async function handler(
         firstName,
         lastName,
         email,
-        groupId: Number(groupId) 
+        groupId: typeof groupId === 'number' ? groupId : Number(groupId)
       });
+      console.log("🟢 [API] Created Student:", newStudent);
       res.status(201).json(newStudent);
     } catch (error) {
       res.status(500).json({ error: 'Failed to create student', body: error });
     }
   } 
+
+  else if (req.method === 'DELETE') {
+    try {
+      const { id } = req.body;
+      const deletedStudent = await studentService.deleteStudent(id);
+      res.status(200).json(deletedStudent);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to delete student', body: error });
+    }
+  }
   
   else {
     res.setHeader('Allow', ['GET', 'POST']);

@@ -1,6 +1,9 @@
+import { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { useHttpClient } from '../hooks/http';
 import { StudentService } from '../services/StudentService';
 interface Student {
   id: number;
@@ -8,6 +11,7 @@ interface Student {
   lastName: string;
   email: string;
   group: {
+    id: number;
     name: string;
   };
 }
@@ -17,6 +21,15 @@ interface PageProps {
 }
 
 export default function StudentsList({ students }: PageProps) {
+  const [studentsState, setStudents] = useState<Student[]>(students);
+  const { sendReq } = useHttpClient();
+  
+  function deleteStudent(id: number) {
+    sendReq({ path: `students`, method: 'DELETE', body: JSON.stringify({ id }) });
+
+    setStudents(studentsState.filter((student) => student.id !== id));
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <Head>
@@ -58,14 +71,14 @@ export default function StudentsList({ students }: PageProps) {
               </tr>
             </thead>
             <tbody>
-              {students.length === 0 ? (
+              {studentsState.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center text-gray-500">
                     Не знайдено студентів.
                   </td>
                 </tr>
               ) : (
-                students.map((student) => (
+                studentsState.map((student) => (
                   <tr key={student.id} className="hover:bg-gray-50">
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <div className="flex items-center">
@@ -82,12 +95,11 @@ export default function StudentsList({ students }: PageProps) {
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                       <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                         <span aria-hidden className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                        <span className="relative">{student.group?.name || 'No Group'}</span>
+                        <span className="relative"><Link href={`/groups/${student.group?.id}`}>{student.group?.name || 'No Group'}</Link></span>
                       </span>
                     </td>
                     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                      <button className="text-blue-600 hover:text-blue-900 mr-4">Edit</button>
-                      <button className="text-red-600 hover:text-red-900">Delete</button>
+                      <button onClick={() => deleteStudent(student.id)} className="text-red-600 hover:text-red-900">Delete</button>
                     </td>
                   </tr>
                 ))
