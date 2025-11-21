@@ -1,4 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+Використання ООП та класів у програмі
+```
+export class StudentService {
+  
+  async getAllStudents() {
+    return await prisma.student.findMany({
+      include: { group: true } // Join with Group table
+    });
+  }
+
+  async createStudent(data: { firstName: string; lastName: string; email: string; groupId: number }) {
+    return await prisma.student.create({
+      data: {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        groupId: data.groupId
+      }
+    });
+  }
+
+  async deleteStudent(id: number) {
+    return await prisma.student.delete({
+      where: { id }
+    });
+  }
+
+  async getStudentById(id: number) {
+    return await prisma.student.findUnique({
+      where: { id },
+      include: {
+        group: {
+          include: {
+            department: true // Щоб знати факультет
+          }
+        },
+        grades: {
+          include: {
+            subject: {
+              include: {
+                teacher: true // Щоб знати, хто поставив оцінку
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+}
+```
+
+Застосування реляційної бази данних у програмі
+'
+
+model Department {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  groups      Group[]  
+}
+
+model Group {
+  id           Int        @id @default(autoincrement())
+  name         String     // knms1-b24
+  courseYear   Int        // 3 year
+  departmentId Int
+  department   Department @relation(fields: [departmentId], references: [id])
+  students     Student[]  
+}
+model Student {
+  id          Int      @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  email       String   @unique
+  phone       String?
+  dateOfBirth DateTime?
+  
+  groupId     Int
+  group       Group    @relation(fields: [groupId], references: [id])
+  
+  grades      Grade[]  
+  createdAt   DateTime @default(now())
+}
+model Subject {
+  id          Int      @id @default(autoincrement())
+  name        String   
+  credits     Int?     
+  
+  teacherId   Int?
+  teacher     Teacher? @relation(fields: [teacherId], references: [id])
+  
+  grades      Grade[]
+}
+
+model Teacher {
+  id        Int       @id @default(autoincrement())
+  fullName  String
+  email     String    @unique
+  subjects  Subject[]
+}
+
+model Grade {
+  id        Int      @id @default(autoincrement())
+  value     Int      // 0-100
+  comment   String? 
+  date      DateTime @default(now())
+  
+  studentId Int
+  student   Student  @relation(fields: [studentId], references: [id])
+  
+  subjectId Int
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+}
+'
+
 
 ## Getting Started
 
